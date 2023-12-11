@@ -2,7 +2,7 @@
 
 *Enjoy secure, fast, encrypted authentication services free from cyber attacks.*
 
-![MF-Auth logo](https://drive.google.com/file/d/1B2AfOx0bSymFrr1wNkaP08aC2PLmN2ur/view?usp=drive_link)
+![MF-Auth logo](./client/public/mfauth.PNG)
 
 ## Table of Contents
 
