@@ -40,11 +40,11 @@ The MF-Auth API provides the following endpoints:
 
 | Method | Endpoint | Description |
 | ------ | -------- | ----------- |
-| POST  | /api/signin | Validate the user's email and password, create a session for the authenticated user, and set a cookie with the session ID. Return a JSON representation of the user object or an error message. |
-| POST | api/signup | Create a new user account with some data and return a JSON representation of the user object or an error message. |
-| GET | api/user/:id | Get a user account with some data and return a JSON representation of the user object or an error message. |
-| PUT | api/user/reset/:id | Change a user pasword and return a JSON representation of the user object or an error message. |
-| DELETE | api/user/delete/:id | Delete user account and return a JSON representation of the user object or an error message. |
+| POST  | /get_user/login | Validate the user's email and password, create a session for the authenticated user, and set a cookie with the session ID. Return a JSON representation of the user object or an error message. |
+| POST | /signup | Create a new user account with some data and return a JSON representation of the user object or an error message. |
+| GET | /get_user/<int:user_id> | Get a user account with some data and return a JSON representation of the user object or an error message. |
+| PUT | /edit_account/<int:user_id> | Change a user pasword and return a JSON representation of the user object or an error message. |
+| DELETE | /delete_account/<int:user_id> | Delete user account and return a JSON representation of the user object or an error message. |
 
 
 ## Technologies And Architecture
