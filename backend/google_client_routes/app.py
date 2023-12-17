@@ -114,7 +114,7 @@ def callback():
         # Create a user in your db with the information provided
         # by Google
         user = User(
-            self_id=unique_id, email=users_email
+            user_id=unique_id, email=users_email
         )
 
         login_user(user)
