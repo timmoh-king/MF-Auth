@@ -24,3 +24,4 @@ yarn-error.log*
 
 # Tailwinds CSS
 dist
+/src/App.txt
