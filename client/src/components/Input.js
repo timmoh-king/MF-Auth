@@ -14,13 +14,13 @@ const Input = ({
   error,
 }) => {
   return (
-      <div className="bg-mfauth_white border-mfauth_background rounded-md py-2 focus:outline-none focus:ring-2 focus:ring-mfauth_background">
-          <label className="block text-xl text-mfauth_black text-normal py-2 px-2 font-semibold">
+      <div className="bg-mfauth_white border-mfauth_background rounded-md py-2 focus:outline-none focus:ring-2 focus:ring-mfauth_gray">
+          <label className="block text-xl text-mfauth_black text-lg py-2 font-semibold">
               {labelName}
           </label>
           <input
               type={inputType ? inputType : "text"}
-              className={`bg-mfauth_background text-sm font-normal px-2 h-[32px] rounded-sm shadow-none focus:outline-none focus:ring-1 focus:ring-mfauth_background ${inputStyle ? inputStyle : ""}`}
+              className={`bg-mfauth_background text-sm font-normal px-2 h-[32px] rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-mfauth_purple ${inputStyle ? inputStyle : ""}`}
               key={index}
               method={method}
               placeholder={placeHolder}

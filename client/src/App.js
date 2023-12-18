@@ -1,10 +1,9 @@
 import './App.css'
 
-
 function App() {
   return (
     <div>
-      <h1>Welcome to MF-Auth.</h1>
+      Welcome to MF-Auth APP
     </div>
   );
 }
