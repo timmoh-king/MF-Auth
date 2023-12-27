@@ -1,11 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import Logo from "../components/Logo";
 import Button from "../components/Button";
 import Input from "../components/Input";
 
 const Signup = () => {
+  const [error, setError] = useState("")
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+    confirm_password: ""
+  })
+
+  const navigate = useNavigate()
+
+  const clearForm = () => {
+    setInputs({
+      email: "",
+      password: "",
+      confirm_password: ""
+    })
+  }
+
+  const handleChange = (e) => {
+      const {name, value} = e.target
+      setInputs((prev) => ({...prev, [name]: value}));
+  }
+
+  const handleSignUp = async (e) => {
+    e.preventDefault()
+    try {
+      await axios.post("http://127.0.0.1:5000/signup", {
+        email: inputs.email,
+        password: inputs.password,
+        confirm_password: inputs.confirm_password
+      })
+      clearForm();
+      navigate('/login')
+    } catch (error) {
+      setError(error.response.data.Error)
+    }
+  }
+  console.log(error)
+
   return (
-    <div className="container flex flex-row mx-auto justify-center md:mt-28">
+    <div className="container flex flex-row mx-auto justify-center md:mt-12 md:mb-12">
       <div className="max-w-lg rounded-md overflow-hidden shadow-lg px-6 py-4 space-y-4">
       <div className="flex flex-row items-start mb-6">
         <Logo /> 
@@ -26,20 +66,23 @@ const Signup = () => {
             or sign up with email
           </p>
       </div>
-      <form method="POST" className="space-y-0">
+      <form method="POST" onSubmit={handleSignUp} className="space-y-0">
         <div className="w-full">
-          <Input inputName='email' inputStyle="w-full h-[42px] rounded-md" labelName='Email Address' placeHolder="Enter your email address" />
+          <Input inputName='email' inputStyle="w-full h-[42px] rounded-md" labelName='Email Address' onChange={handleChange} placeHolder="Enter your email address" />
         </div>
         <div className="w-full">
-          <Input inputName='password' inputStyle="w-full h-[42px] rounded-md" labelName='Enter Password' placeHolder="Enter your password" />
+          <Input inputName='password' inputType="password" inputStyle="w-full h-[42px] rounded-md" labelName='Enter Password' onChange={handleChange} placeHolder="Enter your password" />
         </div>
         <div className="w-full">
-          <Input inputName='confirm_password' inputStyle="w-full h-[42px] rounded-md" labelName='Confirm Password' placeHolder="Enter your password" />
+          <Input inputName='confirm_password' inputType="password" inputStyle="w-full h-[42px] rounded-md" labelName='Confirm Password' onChange={handleChange} placeHolder="Enter your password" />
+        </div>
+        <div className="w-full py-2 text-start">
+          <p className="py-2 text-start text-sm text-mfauth_red font-normal">{error}</p>
         </div>
         <div className="w-full py-2 text-end">
-          <p className="text-sm text-mfauth_gray font-normal hover:font-medium hover:text-mfauth_purple">
+          <Link to="/login" className="text-sm text-mfauth_gray font-normal hover:font-medium hover:text-mfauth_purple">
             already registered?
-          </p>
+          </Link>
         </div>
         <div className="w-full py-2 md: mb-12">
           <Button buttonName='Signup' buttonStyle="w-full bg-mfauth_purple h-[42px] rounded-md" />

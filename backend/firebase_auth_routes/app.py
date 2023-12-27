@@ -1,12 +1,15 @@
 from flask import Flask, jsonify, request, make_response, session
+from flask_cors import CORS
 from OTP import getOTPApi
 from os import getenv
 from config import config
 import pyrebase
+import json
 import os
 
 
 app = Flask(__name__)
+CORS(app)
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 app.secret_key = os.getenv('MF-AUTH_SECRET')
@@ -23,9 +26,9 @@ def index():
 @app.route('/signup', methods=['POST'], strict_slashes=True)
 def signup():
     """create a new user account"""
-    email = request.form['email']
-    password = request.form['password']
-    confirm_password = request.form['confirm_password']
+    email = request.json.get('email')
+    password = request.json.get('password')
+    confirm_password = request.json.get('confirm_password')
 
     if password != confirm_password:
         return jsonify({ 'Error': 'Passwords do not match!!' }), 400
@@ -33,17 +36,18 @@ def signup():
     try:
         new_user = auth.create_user_with_email_and_password(email, password)
         auth.send_email_verification(new_user['idToken'])
-        return jsonify({ 'Message': 'User created successfully' }), 200       
+        return jsonify({ 'Message': 'User created successfully' }), 200     
     except Exception as e:
-        return jsonify({'User not created': str(e)}), 500
+        error_message = json.dumps(str(e), default=lambda o: list(o) if isinstance(o, set) else o)
+        return jsonify({'Error': error_message}), 500
 
 
 @app.route('/login', methods=['POST'], strict_slashes=True)
 def login():
     """Authenticate a user"""
     try:
-        email = request.form['email']
-        password = request.form['password']
+        email = request.json.get('email')
+        password = request.json.get('password')
         user_info = auth.sign_in_with_email_and_password(email, password)
         account_info = auth.get_account_info(user_info['idToken'])
 
@@ -60,11 +64,11 @@ def login():
         return jsonify({'Ooops unauthorized': str(e)}), 401
 
 
-@app.route('/edit_password', methods=['POST'], strict_slashes=True)
-def edit_password():
-    """Edit user password"""
+@app.route('/reset_password', methods=['POST'], strict_slashes=True)
+def reset_password():
+    """Reset user password"""
     try:
-        email = request.form['email']
+        email = request.json.get('email')
         auth.send_password_reset_email(email)
 
         return jsonify({'Message': 'Password updated successfully'}), 200
@@ -76,7 +80,7 @@ def edit_password():
 def getOTP():
     """Get One Time Password"""
     try:
-        phone_number = request.form['phone_number']
+        phone_number = request.json.get('phone_number')
         val = getOTPApi(phone_number, session)
         if val:
             return jsonify({'Message': 'The OTP value has been created'}), 201
@@ -88,7 +92,7 @@ def getOTP():
 def validateOTP():
     """Validate One Time Password"""
     try:
-        otp = request.form['otp']
+        otp = request.json.get('otp')
         if 'response' in session:
             s = session['response']
             session.pop('response', None)
