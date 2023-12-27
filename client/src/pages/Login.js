@@ -34,7 +34,7 @@ const Login = () => {
         password: inputs.password,
       })
       clearForm();
-      navigate('/dashboard')
+      navigate('/getotp')
     } catch (error) {
       setError(error.response.data.Error)
     }
