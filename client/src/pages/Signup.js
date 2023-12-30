@@ -42,7 +42,14 @@ const Signup = () => {
       setError(error.response.data.Error)
     }
   }
-  console.log(error)
+
+  const handleSignInWithGoogle = async() => {
+    try {
+      await axios.post("https://127.0.0.1:5005/login_with_google")
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className="container flex flex-row mx-auto justify-center md:mt-12 md:mb-12">
@@ -59,7 +66,7 @@ const Signup = () => {
           </p>
       </div>
       <div className="w-full">
-        <Button buttonName='Continue with Google' buttonStyle="w-full bg-mfauth_purple h-[42px] rounded-md" />
+        <Button onClick={handleSignInWithGoogle} buttonName='Continue with Google' buttonStyle="w-full bg-mfauth_purple h-[42px] rounded-md" />
       </div>
       <div className="items-center text-center">
           <p className="text-sm text-mfauth_gray font-normal">
