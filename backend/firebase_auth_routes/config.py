@@ -2,8 +2,7 @@ import os
 from os import getenv
 
 config = {
-  # "apiKey": os.getenv('FIREBASE_API_KEY'),
-    "apiKey": "AIzaSyAWWSLiaOA8560J3U18gmeMb1H6jJrWqFs",
+  "apiKey": os.getenv('FIREBASE_API_KEY'),
   "authDomain": "mf-auth-6bbe7.firebaseapp.com",
   "projectId": "mf-auth-6bbe7",
   "storageBucket": "mf-auth-6bbe7.appspot.com",

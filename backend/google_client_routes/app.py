@@ -8,12 +8,14 @@ from flask_login import (
     logout_user,
 )
 from oauthlib.oauth2 import WebApplicationClient
+from flask_cors import CORS
 import requests
 from os import getenv
 import os
 import json
 
 app = Flask(__name__)
+CORS(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
