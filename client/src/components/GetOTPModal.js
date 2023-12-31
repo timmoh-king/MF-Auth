@@ -19,18 +19,25 @@ const GetOTPModal = ({ isOpen, onClose }) => {
 
     const navigate = useNavigate();
 
-    const handleGetOtp = async () => {
+    const handleChange = (e) => {
+        const {name, value} = e.target
+        setInputs((prev) => ({...prev, [name]: value}));
+    }
+
+    const handleGetOtp = async (e) => {
         try {
+           e.preventDefault();
            await axios.post("http://127.0.0.1:5000/getOTP", {
                 phone_number: inputs.phone_number
            });
            clearForm();
-           onClose();
            navigate('/validateotp')
+
         } catch (error) {
-            setError(error.response.data.Error);
+            setError(error.Response);
         }
     }
+    console.log(error);
 
     return isOpen ? (
     <div className="fixed inset-0 flex flex-col items-center justify-center z-50 min-w-lg">
@@ -45,9 +52,9 @@ const GetOTPModal = ({ isOpen, onClose }) => {
             </div>
             <div className='w-full px-4 space-y-2'>
                 <h3 className="text-xl text-center font-semibold mb-4">Get OTP Password</h3>
-                <form method='POST' onSubmit={handleGetOtp} className='space-y-3'>
-                    <Input inputName='phone_number' inputStyle="w-full h-[42px] rounded-md" labelName='Mobile Number' placeHolder="Enter your mobile number" />
-                    <Button buttonName='Get OTP' buttonStyle="w-full bg-mfauth_green h-[42px] rounded-md" />
+                <form onSubmit={handleGetOtp} className="space-y-3">
+                    <Input inputName="phone_number" inputStyle="w-full h-[42px] rounded-md" labelName="Mobile Number" onChange={handleChange} placeHolder="Enter your mobile number" />
+                    <Button buttonName='Get OTP' buttontype='submit' buttonStyle="w-full bg-mfauth_green h-[42px] rounded-md" />
                 </form>
             </div>
             <div className="w-full py-2 text-start">
