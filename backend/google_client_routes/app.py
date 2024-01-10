@@ -15,7 +15,7 @@ import os
 import json
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}})
 login_manager = LoginManager()
 login_manager.init_app(app)
 
