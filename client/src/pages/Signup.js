@@ -45,7 +45,9 @@ const Signup = () => {
 
   const handleSignInWithGoogle = async() => {
     try {
-      await axios.post("https://127.0.0.1:5005/login_with_google")
+      await axios.post("https://localhost:5005/login_with_google")
+      console.log("Signin with google");
+      navigate('/dashboard');
     } catch (error) {
       console.log(error)
     }
