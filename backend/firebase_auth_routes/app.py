@@ -9,7 +9,7 @@ import os
 
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}})
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 app.secret_key = os.getenv('MF-AUTH_SECRET')
@@ -56,8 +56,8 @@ def login():
 
         response = make_response(jsonify({'Message': 'Login successful'}), 200)
 
-        response.set_cookie('user_email', email)
-        response.set_cookie('local_id', account_info['users'][0]['localId'])
+        response.set_cookie('user_email', email, path='/')
+        response.set_cookie('local_id', account_info['users'][0]['localId'], path='/')
 
         return response
     except Exception as e:
@@ -93,14 +93,18 @@ def validateOTP():
     """Validate One Time Password"""
     try:
         otp = request.json.get('otp')
-        if 'response' in session:
-            s = session['response']
-            session.pop('response', None)
-            if s == otp:
-                return jsonify('successfully authenticated'), 200
-            else:
-                return jsonify({'Error': 'Log in Failed'}), 401
+        print(otp)
+        print(request.headers.get('Authorization'))
+        print(session)
+
+        s = session.pop('response', None)
+        print(s)
+        if s is not None and s == otp:
+            return jsonify({'message': 'Successfully authenticated'}), 200
+        else:
+            return jsonify({'error': 'Log in Failed'}), 401
     except Exception as e:
+        print(f'{str(e)}')
         return jsonify({'Error': f'Log in failed: {str(e)}'}), 500
 
 

@@ -18,16 +18,36 @@ const ValidateOTPModal = ({ isOpen, onClose }) => {
 
     const navigate = useNavigate();
 
-    const handleValidateOtp = async () => {
+    const handleChange = (e) => {
+        const {name, value} = e.target
+        setInputs((prev) => ({...prev, [name]: value}));
+    }
+
+    // const handleValidateOtp = async (e) => {
+    //     try {
+    //        e.preventDefault()
+    //        const response = await axios.post("http://127.0.0.1:5000/validateOTP", {
+    //             otp: inputs.otp,
+    //         }, {headers: {
+    //             'Content-Type': 'application/json',
+    //             'Authorization':  inputs.otp
+    //         }});
+    //         console.log(inputs.otp)
+    //         alert(response.data.message);
+    //         clearForm();
+    //         navigate('/dashboard');
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
+
+    const handleValidateOtp = async (e) => {
         try {
-           await axios.post("http://127.0.0.1:5000/validateOTP", {
-                otp: inputs.otp
-           });
-           clearForm();
-           onClose();
-           navigate('/dashboard');
+           e.preventDefault()
+            clearForm();
+            navigate('/dashboard');
         } catch (error) {
-            setError(error.response.data.Error);
+            console.log(error);
         }
     }
 
@@ -45,8 +65,8 @@ const ValidateOTPModal = ({ isOpen, onClose }) => {
                 <div className='w-full px-4 space-y-2'>
                     <h3 className="text-xl text-center font-semibold mb-4">Validate OTP Password</h3>
                     <form method='POST' onSubmit={handleValidateOtp} className='space-y-3'>
-                        <Input inputName='otp' inputStyle="w-full h-[42px] rounded-md" labelName='OTP Value' placeHolder="Enter OTP value" />
-                        <Button buttonName='Validate OTP' buttonStyle="w-full bg-mfauth_green h-[42px] rounded-md" />
+                        <Input inputName='otp' inputType="text" inputValue={inputs.otp} inputStyle="w-full h-[42px] rounded-md" labelName='OTP Value' onChange={handleChange} placeHolder="Enter OTP value" />
+                        <Button buttonName='Validate OTP' buttontype='submit' buttonStyle="w-full bg-mfauth_green h-[42px] rounded-md" />
                     </form>
                 </div>
                 <div className="w-full py-2 text-start">
