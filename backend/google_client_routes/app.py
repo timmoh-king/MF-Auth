@@ -17,8 +17,8 @@ import json
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": [
     "http://localhost:3000",
-    "https://mf-auth-e27f78z3x-timmoh-king.vercel.app/",
-    "https://mf-auth-six.vercel.app/"
+    "https://mf-auth-e27f78z3x-timmoh-king.vercel.app",
+    "https://mf-auth-six.vercel.app"
 ]}})
 login_manager = LoginManager()
 login_manager.init_app(app)
