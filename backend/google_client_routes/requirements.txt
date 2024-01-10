@@ -1,0 +1,5 @@
+pip install flask
+pip install flask_login
+pip install flask_cors
+pip install oauthlib
+pip install requests
