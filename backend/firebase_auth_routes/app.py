@@ -9,7 +9,11 @@ import os
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}})
+CORS(app, resources={r"/*": {"origins": [
+    "http://localhost:3000",
+    "https://mf-auth-e27f78z3x-timmoh-king.vercel.app/",
+    "https://mf-auth-six.vercel.app/"
+]}})
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 app.secret_key = os.getenv('MF-AUTH_SECRET')
